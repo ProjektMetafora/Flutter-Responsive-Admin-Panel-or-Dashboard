@@ -1,21 +1,30 @@
-import 'package:admin/providers/providers.dart';
-import 'package:admin/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beamer/beamer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SideMenu extends HookWidget {
-  final PageController pageController;
+class SideMenu extends StatefulHookWidget {
+  final GlobalKey<BeamerState> beamerKey;
 
-  const SideMenu(this.pageController, {
+  const SideMenu({
     Key key,
+    this.beamerKey
   }) : super(key: key);
 
   @override
+  _SideMenuState createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final currentPage = useProvider(currentPageProvider);
 
     return Drawer(
       child: SingleChildScrollView(
@@ -29,8 +38,7 @@ class SideMenu extends HookWidget {
               title: "Dashboard",
               svgSrc: "assets/icons/menu_dashbord.svg",
               press: () {
-                currentPage.state = '/';
-                pageController.animateToPage(routeToIndex('/'), duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                widget.beamerKey.currentState.routerDelegate.beamToNamed('/dashboard');
                 Navigator.of(context).pop();
               },
             ),
@@ -38,9 +46,7 @@ class SideMenu extends HookWidget {
               title: "Transaction",
               svgSrc: "assets/icons/menu_tran.svg",
               press: () {
-                // context.beamToNamed('/transactions');
-                currentPage.state = '/transactions';
-                pageController.animateToPage(routeToIndex('/transactions'), duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                widget.beamerKey.currentState.routerDelegate.beamToNamed('/transactions');
                 Navigator.of(context).pop();
               },
             ),
@@ -48,9 +54,7 @@ class SideMenu extends HookWidget {
               title: "Task",
               svgSrc: "assets/icons/menu_task.svg",
               press: () {
-                // context.beamToNamed('/tasks');
-                currentPage.state = '/tasks';
-                pageController.animateToPage(routeToIndex('/tasks'), duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                widget.beamerKey.currentState.routerDelegate.beamToNamed('/tasks');
                 Navigator.of(context).pop();
               },
             ),

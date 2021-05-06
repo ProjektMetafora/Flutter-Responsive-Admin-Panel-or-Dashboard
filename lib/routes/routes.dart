@@ -1,17 +1,55 @@
-/// This is temporary, we will move to Beamer Eventually
+import 'package:admin/screens/tasks/tasks_screen.dart';
+import 'package:admin/screens/transactions/transactions_screen.dart';
+import 'package:beamer/beamer.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-int routeToIndex(String route) {
-  if (route == '/') return 0;
-  if (route == '/transactions') return 1;
-  if (route == '/tasks') return 2;
+import '../screens/dashboard/dashboard_screen.dart';
+import '../screens/main/main_screen.dart';
 
-  return 0;
+class DashboardLocation extends BeamLocation {
+  DashboardLocation(BeamState state) : super(state);
+
+  @override
+  List<BeamPage> pagesBuilder(BuildContext context, BeamState state) => [
+        BeamPage(
+          type: BeamPageType.fadeTransition,
+          key: ValueKey('dashboardView'),
+          child: DashboardScreen(),
+        ),
+      ];
+
+  @override
+  List<String> get pathBlueprints => ['/dashboard'];
 }
 
-String indexToRoute(int index) {
-  if (index == 0) return '/';
-  if (index == 1) return '/transactions';
-  if (index == 2) return '/tasks';
+class TasksLocation extends BeamLocation {
+  TasksLocation(BeamState state) : super(state);
 
-  return '/';
+  @override
+  List<BeamPage> pagesBuilder(BuildContext context, BeamState state) => [
+        BeamPage(
+          type: BeamPageType.fadeTransition,
+          key: ValueKey('tasksView'),
+          child: TasksScreen(),
+        ),
+      ];
+
+  @override
+  List<String> get pathBlueprints => ['/tasks'];
+}
+
+class TransactionsLocation extends BeamLocation {
+  TransactionsLocation(BeamState state) : super(state);
+
+  @override
+  List<BeamPage> pagesBuilder(BuildContext context, BeamState state) => [
+        BeamPage(
+          type: BeamPageType.fadeTransition,
+          key: ValueKey('transactionsView'),
+          child: TransactionsScreen(),
+        ),
+      ];
+
+  @override
+  List<String> get pathBlueprints => ['/transactions'];
 }

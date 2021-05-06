@@ -8,18 +8,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'screens/main/main_screen.dart';
-import 'screens/main/main_screen.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  // final _beamerKey = Globa
+
+  final _beamerRouterDelegate = BeamerRouterDelegate(
+    initialPath: '/dashboard',
+    locationBuilder: SimpleLocationBuilder(
+      routes: {
+        '/*': (context) => MainScreen(
+          beamerKey: GlobalKey<BeamerState>(),
+        ),
+      },
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Admin Panel',
       theme: ThemeData.dark().copyWith(
@@ -28,15 +37,8 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
-      home: MainScreen(),
-      // home: MultiProvider(
-      //   providers: [
-      //     ChangeNotifierProvider(
-      //       create: (context) => MenuController(),
-      //     ),
-      //   ],
-      //   child: MainScreen(),
-      // ),
+      routeInformationParser: BeamerRouteInformationParser(),
+      routerDelegate: _beamerRouterDelegate,
     );
   }
 }
