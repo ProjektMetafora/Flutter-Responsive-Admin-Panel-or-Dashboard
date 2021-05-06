@@ -1,13 +1,22 @@
+import 'package:admin/providers/providers.dart';
+import 'package:admin/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:beamer/beamer.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SideMenu extends StatelessWidget {
-  const SideMenu({
+class SideMenu extends HookWidget {
+  final PageController pageController;
+
+  const SideMenu(this.pageController, {
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final currentPage = useProvider(currentPageProvider);
+
     return Drawer(
       child: SingleChildScrollView(
         // it enables scrolling
@@ -17,19 +26,33 @@ class SideMenu extends StatelessWidget {
               child: Image.asset("assets/images/logo.png"),
             ),
             DrawerListTile(
-              title: "Dashbord",
+              title: "Dashboard",
               svgSrc: "assets/icons/menu_dashbord.svg",
-              press: () {},
+              press: () {
+                currentPage.state = '/';
+                pageController.animateToPage(routeToIndex('/'), duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                Navigator.of(context).pop();
+              },
             ),
             DrawerListTile(
               title: "Transaction",
               svgSrc: "assets/icons/menu_tran.svg",
-              press: () {},
+              press: () {
+                // context.beamToNamed('/transactions');
+                currentPage.state = '/transactions';
+                pageController.animateToPage(routeToIndex('/transactions'), duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                Navigator.of(context).pop();
+              },
             ),
             DrawerListTile(
               title: "Task",
               svgSrc: "assets/icons/menu_task.svg",
-              press: () {},
+              press: () {
+                // context.beamToNamed('/tasks');
+                currentPage.state = '/tasks';
+                pageController.animateToPage(routeToIndex('/tasks'), duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                Navigator.of(context).pop();
+              },
             ),
             DrawerListTile(
               title: "Documents",

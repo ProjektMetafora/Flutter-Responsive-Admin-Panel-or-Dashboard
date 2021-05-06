@@ -1,16 +1,22 @@
 import 'package:admin/constants.dart';
-import 'package:admin/controllers/MenuController.dart';
 import 'package:admin/screens/main/main_screen.dart';
+import 'package:admin/screens/tasks/tasks_screen.dart';
+import 'package:admin/screens/transactions/transactions_screen.dart';
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'screens/main/main_screen.dart';
+import 'screens/main/main_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // final _beamerKey = Globa
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,14 +28,15 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => MenuController(),
-          ),
-        ],
-        child: MainScreen(),
-      ),
+      home: MainScreen(),
+      // home: MultiProvider(
+      //   providers: [
+      //     ChangeNotifierProvider(
+      //       create: (context) => MenuController(),
+      //     ),
+      //   ],
+      //   child: MainScreen(),
+      // ),
     );
   }
 }

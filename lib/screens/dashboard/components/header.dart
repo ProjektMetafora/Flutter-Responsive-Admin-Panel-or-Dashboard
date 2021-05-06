@@ -1,24 +1,30 @@
 import 'package:admin/controllers/MenuController.dart';
+import 'package:admin/providers/menu_provider.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../constants.dart';
 
-class Header extends StatelessWidget {
+class Header extends HookWidget {
   const Header({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final menuProvider = useProvider(menuChangeProvider);
     return Row(
       children: [
         if (!Responsive.isDesktop(context))
           IconButton(
             icon: Icon(Icons.menu),
-            onPressed: context.read<MenuController>().controlMenu,
+            // onPressed: context.read<MenuController>().controlMenu,
+            onPressed: menuProvider.controlMenu,
           ),
         if (!Responsive.isMobile(context))
           Text(
