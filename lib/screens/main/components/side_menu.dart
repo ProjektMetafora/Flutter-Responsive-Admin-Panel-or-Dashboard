@@ -1,3 +1,5 @@
+import 'package:admin/providers/menu_provider.dart';
+import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,17 +9,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SideMenu extends StatefulHookWidget {
   final GlobalKey<BeamerState> beamerKey;
 
-  const SideMenu({
-    Key key,
-    this.beamerKey
-  }) : super(key: key);
+  const SideMenu({Key key, this.beamerKey}) : super(key: key);
 
   @override
   _SideMenuState createState() => _SideMenuState();
 }
 
 class _SideMenuState extends State<SideMenu> {
-
   @override
   void initState() {
     super.initState();
@@ -25,6 +23,7 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final menuProvider = useProvider(menuChangeProvider);
 
     return Drawer(
       child: SingleChildScrollView(
@@ -38,24 +37,28 @@ class _SideMenuState extends State<SideMenu> {
               title: "Dashboard",
               svgSrc: "assets/icons/menu_dashbord.svg",
               press: () {
-                widget.beamerKey.currentState.routerDelegate.beamToNamed('/dashboard');
-                Navigator.of(context).pop();
+                widget.beamerKey.currentState.routerDelegate
+                    .beamToNamed('/dashboard');
+                menuProvider.closeMenu();
               },
             ),
             DrawerListTile(
               title: "Transaction",
               svgSrc: "assets/icons/menu_tran.svg",
               press: () {
-                widget.beamerKey.currentState.routerDelegate.beamToNamed('/transactions');
-                Navigator.of(context).pop();
+                widget.beamerKey.currentState.routerDelegate
+                    .beamToNamed('/transactions');
+                menuProvider.closeMenu();
               },
             ),
             DrawerListTile(
               title: "Task",
               svgSrc: "assets/icons/menu_task.svg",
               press: () {
-                widget.beamerKey.currentState.routerDelegate.beamToNamed('/tasks');
-                Navigator.of(context).pop();
+                widget.beamerKey.currentState.routerDelegate
+                    .beamToNamed('/tasks');
+
+                menuProvider.closeMenu();
               },
             ),
             DrawerListTile(
