@@ -15,7 +15,19 @@ class SideMenu extends StatefulHookWidget {
   _SideMenuState createState() => _SideMenuState();
 }
 
+enum DrawerSelection {
+  dashboard,
+  transactions,
+  tasks
+}
+
+final drawerSelectionProvider = StateProvider((ref) => DrawerSelection.dashboard);
+
 class _SideMenuState extends State<SideMenu> {
+
+  /// drawer selection, default is dashboard
+  DrawerSelection drawerSelection = DrawerSelection.dashboard;
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +36,7 @@ class _SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) {
     final menuProvider = useProvider(menuChangeProvider);
+    final _drawerSelection = useProvider(drawerSelectionProvider);
 
     return Drawer(
       child: SingleChildScrollView(
@@ -35,53 +48,63 @@ class _SideMenuState extends State<SideMenu> {
             ),
             DrawerListTile(
               title: "Dashboard",
+              selected: _drawerSelection.state == DrawerSelection.dashboard,
               svgSrc: "assets/icons/menu_dashbord.svg",
               press: () {
+                _drawerSelection.state = DrawerSelection.dashboard;
                 widget.beamerKey.currentState.routerDelegate
                     .beamToNamed('/dashboard');
                 menuProvider.closeMenu();
               },
             ),
             DrawerListTile(
+              selected: _drawerSelection.state == DrawerSelection.transactions,
               title: "Transaction",
               svgSrc: "assets/icons/menu_tran.svg",
               press: () {
+                _drawerSelection.state = DrawerSelection.transactions;
                 widget.beamerKey.currentState.routerDelegate
                     .beamToNamed('/transactions');
                 menuProvider.closeMenu();
               },
             ),
             DrawerListTile(
+              selected: _drawerSelection.state == DrawerSelection.tasks,
               title: "Task",
               svgSrc: "assets/icons/menu_task.svg",
               press: () {
+                _drawerSelection.state = DrawerSelection.tasks;
                 widget.beamerKey.currentState.routerDelegate
                     .beamToNamed('/tasks');
-
                 menuProvider.closeMenu();
               },
             ),
             DrawerListTile(
+              selected: false,
               title: "Documents",
               svgSrc: "assets/icons/menu_doc.svg",
               press: () {},
             ),
             DrawerListTile(
+              selected: false,
               title: "Store",
               svgSrc: "assets/icons/menu_store.svg",
               press: () {},
             ),
             DrawerListTile(
+              selected: false,
               title: "Notification",
               svgSrc: "assets/icons/menu_notification.svg",
               press: () {},
             ),
             DrawerListTile(
+              selected: false,
               title: "Profile",
               svgSrc: "assets/icons/menu_profile.svg",
               press: () {},
             ),
             DrawerListTile(
+              selected: false,
               title: "Settings",
               svgSrc: "assets/icons/menu_setting.svg",
               press: () {},
@@ -100,10 +123,12 @@ class DrawerListTile extends StatelessWidget {
     @required this.title,
     @required this.svgSrc,
     @required this.press,
+    @required this.selected
   }) : super(key: key);
 
   final String title, svgSrc;
   final VoidCallback press;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +142,7 @@ class DrawerListTile extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: TextStyle(color: Colors.white54),
+        style: TextStyle(color: Colors.white54, fontWeight: selected ? FontWeight.bold : FontWeight.normal),
       ),
     );
   }
